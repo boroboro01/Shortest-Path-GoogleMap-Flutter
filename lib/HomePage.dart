@@ -24,12 +24,15 @@ class _HomePageState extends State<HomePage> {
   final Set<Marker> _markers = {};
   final Set<Polyline> _polyline = {};
 
+  List<int> route = [];
   List<LatLng> latLen = [];
 
   List<Location> locations = [
-    Location(37.30109771543584, 127.0351513527889), // kgu
     Location(37.30208375426835, 127.01761538348133), // phantom
+    Location(37.30109771543584, 127.0351513527889), // Kyonggi Univ
+    Location(37.28341196910023, 127.04378654092214), // Ajou Univ
     Location(37.29965411467012, 127.00978444287053), // wizPark
+    Location(37.266534568411615, 127.00019165723867), //suwonStation
   ];
 
   // Future<List<geo.Location>> convert(String address) async {
@@ -46,19 +49,21 @@ class _HomePageState extends State<HomePage> {
   //   "Gumi-si"
   // ];
 
+  BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker;
+
   Future<void> initMarkers() async {
     // for (var address in addresses) {
     //   await convert(address);
     // }
-    for (var location in locations) {
-      latLen.add(LatLng(location.latitude, location.longitude));
+    for (var index in route) {
+      latLen.add(LatLng(locations[index].latitude, locations[index].longitude));
     }
     for (int i = 0; i < latLen.length; i++) {
       _markers.add(Marker(
         markerId: MarkerId(i.toString()),
         position: latLen[i],
-        infoWindow: const InfoWindow(
-          title: 'This is title',
+        infoWindow: InfoWindow(
+          title: 'This is Index $i',
           snippet: 'This is snippet',
         ),
         icon: BitmapDescriptor.defaultMarker,
@@ -76,6 +81,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     Dijkstra dijikstra = Dijkstra();
+    print(locations.length);
+    dijikstra.init(locations.length);
+    route = dijikstra.calculate(locations);
     initMarkers();
   }
 

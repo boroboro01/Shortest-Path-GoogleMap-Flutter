@@ -33,7 +33,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace = "com.example.maptest"
-    compileSdk = 33
+    compileSdk = 34
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -51,7 +51,7 @@ android {
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
 
-        def kakaoKey = dotenv['GoogleMap']
+        def googleKey = dotenv['GoogleMap']
 if (googleKey == null) {
     throw GradleException("GoogleMap not found in .env file")
 }
